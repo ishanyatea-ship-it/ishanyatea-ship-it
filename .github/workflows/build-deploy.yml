@@ -1,0 +1,177 @@
+name: Build and Deploy Ishanya Tea Website
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Create basic website structure
+      run: |
+        mkdir -p dist
+        
+        # Create index.html
+        cat > dist/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Ishanya Tea - Premium Tea Experience</title>
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
+                .hero { background: linear-gradient(135deg, #2D5016, #8FBC8F); color: white; padding: 100px 20px; text-align: center; }
+                .hero h1 { font-size: 3.5em; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+                .hero p { font-size: 1.2em; margin-bottom: 30px; }
+                .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+                .section { padding: 80px 20px; }
+                .products { background: #F8F9FA; }
+                .products h2 { text-align: center; font-size: 2.5em; color: #2D5016; margin-bottom: 50px; }
+                .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+                .product-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
+                .product-card h3 { color: #2D5016; margin-bottom: 15px; }
+                .price { font-size: 1.5em; color: #DAA520; font-weight: bold; margin: 15px 0; }
+                .contact { background: #2D5016; color: white; text-align: center; }
+                .contact h2 { font-size: 2.5em; margin-bottom: 30px; }
+                .contact-info { font-size: 1.1em; margin: 10px 0; }
+                .btn { display: inline-block; background: #DAA520; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 10px; transition: all 0.3s; }
+                .btn:hover { background: #B8860B; transform: translateY(-2px); }
+                footer { background: #1a1a1a; color: white; text-align: center; padding: 30px; }
+                @media (max-width: 768px) {
+                    .hero h1 { font-size: 2.5em; }
+                    .product-grid { grid-template-columns: 1fr; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="hero">
+                <div class="container">
+                    <h1>🍃 Ishanya Tea</h1>
+                    <p>Premium Tea Experience Since 2020</p>
+                    <p>Discover the finest tea varieties from around the world</p>
+                    <a href="#products" class="btn">Explore Our Teas</a>
+                    <a href="#contact" class="btn">Contact Us</a>
+                </div>
+            </div>
+
+            <div id="products" class="products section">
+                <div class="container">
+                    <h2>Our Premium Tea Collection</h2>
+                    <div class="product-grid">
+                        <div class="product-card">
+                            <h3>🖤 Assam Black Tea</h3>
+                            <p>Rich and malty black tea from the Assam region with bold flavor perfect for morning brew</p>
+                            <div class="price">$15.99</div>
+                        </div>
+                        <div class="product-card">
+                            <h3>🌸 Earl Grey</h3>
+                            <p>Classic blend of black tea infused with bergamot oil for a citrusy aroma and taste</p>
+                            <div class="price">$18.99</div>
+                        </div>
+                        <div class="product-card">
+                            <h3>🏔️ Darjeeling</h3>
+                            <p>Premium muscatel flavored tea from the foothills of Himalayas with delicate taste</p>
+                            <div class="price">$22.99</div>
+                        </div>
+                        <div class="product-card">
+                            <h3>🌿 Green Tea Jasmine</h3>
+                            <p>Delicate green tea scented with fresh jasmine flowers for a floral experience</p>
+                            <div class="price">$16.99</div>
+                        </div>
+                        <div class="product-card">
+                            <h3>🌶️ Masala Chai</h3>
+                            <p>Traditional Indian spiced tea blend with cardamom, cinnamon, ginger and cloves</p>
+                            <div class="price">$14.99</div>
+                        </div>
+                        <div class="product-card">
+                            <h3>🍃 Oolong Tea</h3>
+                            <p>Semi-fermented tea with complex flavor profile between black and green tea</p>
+                            <div class="price">$24.99</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="container">
+                    <h2 style="text-align: center; color: #2D5016; margin-bottom: 30px;">Our Services</h2>
+                    <div class="product-grid">
+                        <div class="product-card">
+                            <h3>☕ Tea Consultation</h3>
+                            <p>Personal tea selection and guidance from our experts</p>
+                            <div class="price">$50/hour</div>
+                        </div>
+                        <div class="product-card">
+                            <h3>🎨 Custom Tea Blends</h3>
+                            <p>Create personalized tea mixtures tailored to your taste</p>
+                            <div class="price">$25/blend</div>
+                        </div>
+                        <div class="product-card">
+                            <h3>🎉 Tea Tasting Events</h3>
+                            <p>Group tea tasting experiences for special occasions</p>
+                            <div class="price">$35/person</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="contact" class="contact section">
+                <div class="container">
+                    <h2>Visit Our Tea Shop</h2>
+                    <div class="contact-info">📍 123 Tea Street, City, State 12345</div>
+                    <div class="contact-info">📞 (555) 123-4567</div>
+                    <div class="contact-info">📧 info@ishanyatea.com</div>
+                    <div class="contact-info">🕒 Mon-Sat: 9AM-7PM, Sun: 10AM-6PM</div>
+                    <a href="tel:+15551234567" class="btn">Call Now</a>
+                    <a href="mailto:info@ishanyatea.com" class="btn">Email Us</a>
+                </div>
+            </div>
+
+            <footer>
+                <div class="container">
+                    <p>&copy; 2026 Ishanya Tea. All rights reserved. | Premium Tea Experience Since 2020</p>
+                    <p>🌐 Visit us at <strong>ishanyatea.com</strong> | Follow us on social media @ishanyatea</p>
+                </div>
+            </footer>
+        </body>
+        </html>
+        EOF
+        
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './dist'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

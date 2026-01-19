@@ -1,0 +1,30 @@
+{
+  "project": {
+    "name": "Ishayna Tea",
+    "description": "Premium Tea Business Website",
+    "type": "business",
+    "category": "tea-retail"
+  },
+  "data_source": {
+    "type": "excel",
+    "file": "tea-business.xlsx",
+    "google_sheets_file": "google-sheets-links.txt",
+    "images_folder": "images"
+  },
+  "website": {
+    "title": "Ishayna Tea - Premium Tea Experience",
+    "theme": "modern",
+    "colors": {
+      "primary": "#2D5016",
+      "secondary": "#8FBC8F",
+      "accent": "#DAA520"
+    },
+    "features": ["gallery", "contact_form", "product_catalog"]
+  },
+  "deployment": {
+    "platform": "github_pages",
+    "repository": "ishanyatea-ship-it",
+    "domain": "ishanyatea.com",
+    "auto_deploy": true
+  }
+}

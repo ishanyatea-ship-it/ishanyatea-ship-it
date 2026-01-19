@@ -1,0 +1,32 @@
+{
+  "site": {
+    "title": "Ishanya Tea - Premium Tea Experience",
+    "description": "Discover premium tea varieties and personalized tea experiences",
+    "baseUrl": "https://ishanyatea.com",
+    "theme": "modern-tea"
+  },
+  "colors": {
+    "primary": "#2D5016",
+    "secondary": "#8FBC8F", 
+    "accent": "#DAA520",
+    "background": "#F8F9FA"
+  },
+  "features": {
+    "productCatalog": true,
+    "contactForm": true,
+    "imageGallery": true,
+    "testimonials": true,
+    "seo": true
+  },
+  "contact": {
+    "email": "info@ishanyatea.com",
+    "phone": "(555) 123-4567",
+    "address": "123 Tea Street, City, State 12345",
+    "hours": "Mon-Sat: 9AM-7PM, Sun: 10AM-6PM"
+  },
+  "social": {
+    "instagram": "@ishanyatea",
+    "facebook": "ishanyatea",
+    "twitter": "@ishanyatea"
+  }
+}
